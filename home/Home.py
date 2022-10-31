@@ -6,7 +6,7 @@ humi = 0
 
 request_list = [("home/temperature", 0),
                 ("home/humidity", 0),
-                ("home/occupancy")]
+                ("home/occupancy",0)]
 
 def occupancy_on_connect(client, userdata, flags, rc):
     for _ in request_list:
@@ -14,6 +14,7 @@ def occupancy_on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):  # 구독한 Topic의 메시지 출력
     global prev
+
     if msg.topic == "home/occupancy":
         data = str(msg.payload)[2]
         if data != prev:
@@ -22,7 +23,7 @@ def on_message(client, userdata, msg):  # 구독한 Topic의 메시지 출력
             else:
                 client.publish("home/light", "on")
         prev = data
-    elif msg.topic == "home/temperatre" or msg.topic == "home/humidity":
+    else:
         global humi
         global temp
         data = int(str(msg.payload)[2:-1])
