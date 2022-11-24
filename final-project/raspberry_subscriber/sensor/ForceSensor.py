@@ -18,6 +18,8 @@ class ForceSensor:
         voltage = reading * 3.3 / 1024
         print("Force_Sensor Reading=%d\tVoltage=%f" % (reading, voltage))
 
+        return reading
+
 
     def clear(self):
         self.spi.close()
