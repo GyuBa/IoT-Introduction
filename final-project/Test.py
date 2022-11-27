@@ -7,7 +7,7 @@ if __name__ == "__main__":
     force1 = ForceSensor.ForceSensor(2)
     force2 = ForceSensor.ForceSensor(3)
 
-    print("water : ", water1.getData())
+    print(": ", water1.n, water1.getData())
     print("water : ", water2.getData())
     print("force : ", force1.getData())
     print("force : ", force2.getData())

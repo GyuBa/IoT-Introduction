@@ -5,7 +5,7 @@ from device import Device
 class Sender:
     def __init__(self, device: Device, publishList: list):
         self.subscribeList = publishList
-        self.sender = mqtt.Client(device.name)
+        self.sender = mqtt.Client(device.getName())
         self.sender.on_connect = self._onMessage
         self.sender.on_connect = self._onConnect
         self.device = device
@@ -20,7 +20,7 @@ class Sender:
         self.sender.publish(self.name+"/humidity", self.device.getHumidity())
 
     def sendDeodorantIsEmpty(self):
-        if self.device.getDeodorantEmpty() == "EMPTY":
+        if self.device.getDeodorantEmpty():
             self.sender.publish(self.name + "/deodorant", "EMPTY")
 
         else:

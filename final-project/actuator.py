@@ -1,10 +1,11 @@
-import paho.mqtt.client as mqtt
 from device import Device
 
+class Actuator:
+    def __init__(self, name:str):
+        self.name = name
 
-class Receiver:
-    def __init__(self):
-        self.methodList = {}
+    def getName(self):
+        return self.name
 
     def shoeCaseOpen(self):
         pass
@@ -20,6 +21,3 @@ class Receiver:
 
     def alert(self):
         pass
-    
-    def do(self, methodName):
-        self.methodList[methodName]()
