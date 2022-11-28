@@ -28,10 +28,10 @@ class Device:
     def checkTempHumidity(self) -> bool:
         temperature, humidity = self.dht11.getData()
 
-        if True:
-            pass
+        if temperature > 6:
+            return True
         else:
-            pass
+            return False
 
     def clear(self) -> None:
         self.waterSensor.clear()

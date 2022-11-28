@@ -9,12 +9,13 @@ class DHT11:
         GPIO.cleanup()
         self.instance = dht11.DHT11(pin)
 
-# 라즈베리 파이의 GPIO 21번 핀이 DHT 센서의 데이터 핀(2번 핀)에 연결된 상태인 경우
+# 라즈베리 파이의 GPIO 21번 핀이 DHT 센서의 데이터 핀(2번 핀)에 연결된 상태인 경                                     우
     def getData(self):
-        result = self.instance.read()
 
-        if result.is_valid():
-            return result
+        result = self.instance.read()
+        while not result.is_valid():
+            result = self.instance.read()
+        return result.temperature, result.humidity
 
     def clear(self):
         GPIO.cleanup()

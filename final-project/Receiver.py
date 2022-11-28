@@ -4,7 +4,7 @@ from actuator import Actuator
 
 class Receiver:
     def __init__(self, actuaotor: Actuator, subscribeList: list):
-        self.methodList = {}
+        self.methodList = {"fan":self.fan, "deodorant":self.alert, "shoe":self.shoeCase}
         self.receiver = mqtt.Client(actuaotor.getName())
         self.subscribeList = subscribeList
         self.receiver.on_connect = self._onMessage
@@ -14,32 +14,43 @@ class Receiver:
         self.address = "localhost"
         self.receiver.connect(self.address)
 
-    def shoeCase(self):
-        pass
+    def shoeCase(self, data:str):
+        print("shoe-case", data)
 
-    def fan(self):
-        pass
+    def fan(self, data:str):
+        print("fan", data)
 
     def shoeCaseOpen(self):
-        pass
+        print("case-open")
 
     def shoeCaseClose(self):
-        pass
+        print("case-close")
 
     def fanRun(self):
-        pass
+        print("fan-run")
 
     def fanStop(self):
-        pass
+        print("fan-stop")
 
-    def alert(self):
-        pass
-
-    def do(self, methodName):
-        self.methodList[methodName]()
+    def alert(self, data:str):
+        print("alert", data)
 
     def _onMessage(self, client, userdata, msg):
-        pass
+        for topic, method in self.methodList.items():
+            if topic in msg.topic:
+                data = str(msg.payload)
+                method(data)
+        print("None")
 
     def _onConnect(self):
-        pass
+        for _ in self.subscribeList:
+            self.receiver.subscribe(_)
+
+    def run(self):
+        self.receiver.loop_forever()
+
+    def stop(self):
+        self.receiver.disconnect()
+        for _ in self.subscribeList:
+            self.receiver.unsubscribe(_)
+

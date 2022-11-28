@@ -3,8 +3,7 @@ from device import Device
 
 
 class Sender:
-    def __init__(self, device: Device, publishList: list):
-        self.subscribeList = publishList
+    def __init__(self, device: Device):
         self.sender = mqtt.Client(device.getName())
         self.sender.on_connect = self._onMessage
         self.sender.on_connect = self._onConnect
@@ -13,11 +12,11 @@ class Sender:
         self.address = "localhost"
         self.sender.connect(self.address)
 
-    def sendTemperature(self):
-        self.sender.publish(self.name+"/temperature", self.device.getTemperatureSensor())
-
-    def sendHumidity(self):
-        self.sender.publish(self.name+"/humidity", self.device.getHumidity())
+    def sendFan(self):
+        if self.device.checkTempHumidity():
+            self.sender.publish(self.name + "/fan", "RUN")
+        else:
+            self.sender.publish(self.name + "/fan", "STOP")
 
     def sendDeodorantIsEmpty(self):
         if self.device.getDeodorantEmpty():
@@ -37,3 +36,6 @@ class Sender:
 
     def _onConnect(self):
         pass
+
+    def stop(self):
+        self.device.clear()
