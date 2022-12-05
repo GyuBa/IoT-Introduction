@@ -2,10 +2,10 @@ from Sender import Sender
 from device import Device
 
 if __name__ == "__main__":
-    device1 = Device("device1")
-    device2 = Device("device2")
-    sender1 = Sender(device1, 3, 1, 21)
-    sender2 = Sender(device2, 3 ,2, 21)
+    device1 = Device("device1", 3, 1, 21)
+    device2 = Device("device2", 3 ,2, 21)
+    sender1 = Sender(device1)
+    sender2 = Sender(device2)
 
     try:
         while True:
