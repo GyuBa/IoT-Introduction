@@ -21,9 +21,8 @@ class Sender:
     def sendDeodorantIsEmpty(self):
         if self.device.getDeodorantEmpty():
             self.sender.publish(self.name + "/deodorant", "EMPTY")
-
         else:
-            self.sender.publish(self.name + "/deodorant", "NONE")
+            self.sender.publish(self.name + "/deodorant", "FULL")
 
     def sendInShoe(self):
         if self.device.inShoe():
@@ -34,7 +33,7 @@ class Sender:
     def _onMessage(self):
         pass
 
-    def _onConnect(self):
+    def _onConnect(self, client, userdata, flags, rc):
         pass
 
     def stop(self):

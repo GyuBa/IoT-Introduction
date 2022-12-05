@@ -20,6 +20,7 @@ def occupancy_on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     #이전 정보 저장
     global prev
+    print("MMMMMMMMMMMMMMMMMMM")
     # 만일 받은 msg 토픽이 occupancy 일경우
     if msg.topic == "home/occupancy":
         #전달받은 값 0, 1을 받아서
@@ -74,11 +75,14 @@ if __name__ == "__main__":
     #메시지 받고 동작할 on_message 콜백함수 등록
     occupancy.on_message = on_message
     #호스트 등록
-    occupancy.connect("192.168.230.48")
+    occupancy.connect_async(host="localhost", port=1883)
 
     try:
         #무한 동작
-        occupancy.loop_forever()
+        occupancy.loop_start()
+
+        while True:
+            pass
 
     # Ctrl + C를 입력하여 종료
     except KeyboardInterrupt:

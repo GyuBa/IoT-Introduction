@@ -4,11 +4,11 @@ from sensor import WaterSensor, ForceSensor, DHT11
 
 
 class Device:
-    def __init__(self, name: str):
+    def __init__(self, name: str, waterChannel, forceChannel, dhtPin):
         self.name = name
-        self.waterSensor = WaterSensor.WaterSensor()
-        self.forceSensor = ForceSensor.ForceSensor()
-        self.dht11 = DHT11.DHT11()
+        self.waterSensor = WaterSensor.WaterSensor(waterChannel)
+        self.forceSensor = ForceSensor.ForceSensor(forceChannel)
+        self.dht11 = DHT11.DHT11(dhtPin)
 
     def getName(self):
         return self.name

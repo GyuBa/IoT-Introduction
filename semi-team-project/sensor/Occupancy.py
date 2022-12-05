@@ -8,7 +8,7 @@ def getHumanExisting():
 
 if __name__ == "__main__":
     #호스트 등록
-    host = '192.168.230.48'
+    host = 'localhost'
     #클라이언트 생성
     mqttc = mqtt.Client("human_detect_sensor")
     #클라이언트 연결
