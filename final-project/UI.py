@@ -4,17 +4,15 @@ import paho.mqtt.client as mqtt
 class UI:
     def __init__(self):
         self.UIsender = mqtt.Client("UI")
-
         self.UIsender.on_message = self._onMessage
         self.UIsender.on_connect = self._onConnect
-
-        self.address = "localhost"
+        self.address = "192.168.235.48"
         self.UIsender.connect(self.address)
         self.device = ["device1", "device2"]
 
     def menu(self):
         userSelCase = self.caseSelect()
-        self.UIsender.publish(f"{self.device[userSelCase]} / open" + userSelCase)
+        self.UIsender.publish(f"{self.device[userSelCase-1]} / open", userSelCase)
 
     def caseSelect(self):
         print("where open you want?")

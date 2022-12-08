@@ -6,8 +6,8 @@ from actuator import Actuator
 
 class Receiver:
     def __init__(self, actuaotor: Actuator, subscribeList: list):
-        self.shoeCaseOpen = None
-        self.methodList = {"fan":self.fan, "deodorant":self.alert, "shoe":self.shoeCase, "open":self.shoeCaseOpen}
+        self.methodList = {"fan": self.fan, "deodorant": self.alert, "close": self.shoeCaseClose,
+                           "open": self.shoeCaseOpen}
         self.receiver = mqtt.Client(actuaotor.getName())
         self.subscribeList = subscribeList
         self.receiver.on_connect = self._onMessage
@@ -17,19 +17,19 @@ class Receiver:
         self.address = "localhost"
         self.receiver.connect(self.address)
 
-    def shoeCase(self, data:str):
-        if "IN" in data:
-            time.sleep(1)
-            self.actuator.shoeCaseClose()
+    def shoeCaseOpen(self, data: str):
+        self.actuator.shoeCaseOpen(int(data))
 
-    def fan(self, data:str):
+    def shoeCaseClose(self, data: str):
+        self.actuator.shoeCaseOpen(int(data))
+
+    def fan(self, data: str):
         if "RUN" in data:
             self.actuator.fanRun()
         elif "STOP" in data:
             self.actuator.fanStop()
 
-
-    def alert(self, data:str):
+    def alert(self, data: str):
         if "EMPTY" in data:
             print("EMPTY")
         else:
@@ -53,4 +53,3 @@ class Receiver:
         for _ in self.subscribeList:
             self.receiver.unsubscribe(_)
             self.receiver.loop_stop()
-
