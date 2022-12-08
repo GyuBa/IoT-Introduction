@@ -10,7 +10,6 @@ class WaterSensor:
     def analog_read(self):
         r = self.spi.xfer2([1, (8 + self.channel) << 4, 0])
         adc_out = ((r[1] & 3) << 8) + r[2]
-
         return adc_out
 
 

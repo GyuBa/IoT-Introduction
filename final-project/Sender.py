@@ -3,13 +3,13 @@ from device import Device
 
 
 class Sender:
-    def __init__(self, device: Device):
+    def __init__(self, device: Device, address:str):
         self.sender = mqtt.Client(device.getName())
         self.sender.on_connect = self._onMessage
         self.sender.on_connect = self._onConnect
         self.device = device
         self.name = device.getName()
-        self.address = "localhost"
+        self.address = address
         self.sender.connect(self.address)
 
     def sendFan(self):
@@ -25,10 +25,9 @@ class Sender:
             self.sender.publish(self.name + "/deodorant", "FULL")
 
     def sendInShoe(self):
-        if self.device.inShoe():
-            self.sender.publish(self.name + "/shoe", "IN")
-        else:
-            self.sender.publish(self.name + "/shoe", "NONE")
+        for _ in self.device.getForcePinList():
+            if self.device.inShoe(_):
+                self.sender.publish(self.name + "/close", str(_))
 
     def _onMessage(self):
         pass

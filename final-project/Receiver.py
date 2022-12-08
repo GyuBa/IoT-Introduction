@@ -5,7 +5,7 @@ from actuator import Actuator
 
 
 class Receiver:
-    def __init__(self, actuaotor: Actuator, subscribeList: list):
+    def __init__(self, actuaotor: Actuator, subscribeList: list, address):
         self.methodList = {"fan": self.fan, "deodorant": self.alert, "close": self.shoeCaseClose,
                            "open": self.shoeCaseOpen}
         self.receiver = mqtt.Client(actuaotor.getName())

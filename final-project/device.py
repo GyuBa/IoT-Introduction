@@ -1,13 +1,16 @@
 from builtins import bool
-
 from sensor import WaterSensor, ForceSensor, DHT11
 
 
 class Device:
-    def __init__(self, name: str, waterChannel, forceChannel, dhtPin):
+    def __init__(self, name: str, waterChannel, forceChannel:list, dhtPin):
         self.name = name
         self.waterSensor = WaterSensor.WaterSensor(waterChannel)
-        self.forceSensor = ForceSensor.ForceSensor(forceChannel)
+
+        self.forceSensor = []
+        self.forceChannel = forceChannel
+        for _ in forceChannel:
+            self.forceSensor.append(ForceSensor.ForceSensor(_))
         self.dht11 = DHT11.DHT11(dhtPin)
 
     def getName(self):
@@ -19,8 +22,8 @@ class Device:
         else:
             return False
 
-    def inShoe(self) -> bool:
-        if self.forceSensor.getData() > 40:
+    def inShoe(self, index) -> bool:
+        if self.forceSensor[index].getData() > 40:
             return True
         else:
             return False
@@ -32,6 +35,9 @@ class Device:
             return True
         else:
             return False
+
+    def getForcePinList(self):
+        return self.forceChannel
 
     def clear(self) -> None:
         self.waterSensor.clear()
